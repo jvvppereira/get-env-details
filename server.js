@@ -10,13 +10,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 
-
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
-
-app.get('/:env/:start/:end', async (req, res) => {
-    const { env, start, end } = req.params;
+app.get('/:app/:env/:start/:end', async (req, res) => {
+    const { app, env, start, end } = req.params;
 
     const allEnvs = [];
 
@@ -28,7 +23,7 @@ app.get('/:env/:start/:end', async (req, res) => {
         
         allEnvs.push({
             url: environmentURL,
-            version: envInfo.tasy,
+            version: envInfo[app],
         });
     }
 

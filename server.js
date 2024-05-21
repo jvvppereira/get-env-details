@@ -19,12 +19,17 @@ app.get('/:app/:env/:start/:end', async (req, res) => {
         const environmentURL = `https://${env.replace("00", i)}`;
         const versionJSON = environmentURL + '/version.json';
 
-        const envInfo = await(await fetch(versionJSON)).json();    
-        
-        allEnvs.push({
-            url: environmentURL,
-            version: envInfo[app],
-        });
+        try {
+            const envInfo = await(await fetch(versionJSON)).json();    
+            
+            allEnvs.push({
+                url: environmentURL,
+                version: envInfo[app],
+            });
+        } catch (error) {
+            console.log('error to load: ', versionJSON);
+            console.log(error);
+        }
     }
 
     res.send(allEnvs);
